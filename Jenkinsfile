@@ -53,7 +53,7 @@ node {
     }
 
     stage('Docker Build & Run') {
-        node('akash-agent02') {
+        node('ec2-user') {
             sh '''
               cd /tmp/workspace/pipeline/
               sudo docker build -t forex-app .
