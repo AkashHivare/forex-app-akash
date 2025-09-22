@@ -43,7 +43,7 @@ node {
     }
 
     stage('Copy files to Docker Host') {
-        withCredentials([sshUserPrivateKey(credentialsId: 'ec2-user', keyFileVariable: 'KEY', usernameVariable: 'USERNAME')]) {
+        withCredentials([sshUserPrivateKey(credentialsId: 'ec2-user-akash', keyFileVariable: 'KEY', usernameVariable: 'USERNAME')]) {
             withCredentials([string(credentialsId: 'aws_server_akash', variable: 'AGENT_HOST')]) {
                 sh '''
                     scp -i ${KEY} -o StrictHostKeyChecking=no  rates.csv Dockerfile target/forex-app-1.0.0.jar rates.csv ec2-user@${AGENT_HOST}:/tmp/workspace/pipeline/
@@ -53,7 +53,7 @@ node {
     }
 
     stage('Docker Build & Run') {
-        node('ec2-user') {
+        node('akash-user02') {
             sh '''
               cd /tmp/workspace/pipeline/
               sudo docker build -t forex-app .
